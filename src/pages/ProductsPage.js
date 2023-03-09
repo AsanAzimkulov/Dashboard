@@ -324,7 +324,7 @@ export default function ProductPage() {
                       onSelectAllClick={handleSelectAllClick}
                     />
                 }
-                <TableBody>
+                <TableBody style={blockTable ? { display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' } : {}}>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, name, articul, quantity, price } = row;
                     const selectedProduct = selected.indexOf(name) !== -1;
@@ -357,57 +357,47 @@ export default function ProductPage() {
                         )
                         :
                         (
-                          <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedProduct} >
+                          <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedProduct} style={{ width: window.innerWidth < 550 ? '100%' : '48.5%', display: 'block' }} >
+
+                            <div style={{ backgroundColor: '#b1d0ff', borderRadius: 20, marginBottom: 20 }}>
 
 
-                            {
-                              window.innerWidth < 410 ? (
-                                <TableCell align="right" styles={{ width: 30 }}>
+                              <div style={{ marginLeft: 'auto', width: 'fit-content' }}>
+                                <TableCell align="right" style={{ width: '100%', borderBottom: 'none' }}>
                                   <Checkbox checked={selectedProduct} onChange={(event) => handleClick(event, name)} />
                                   <IconButton size="large" color="inherit" onClick={(event) => handleOpenMenu(event, row)}>
                                     <Iconify icon={'eva:more-vertical-fill'} />
                                   </IconButton>
                                 </TableCell>
-                              ) : (
-                                <TableCell padding="checkbox">
-                                  <Checkbox checked={selectedProduct} onChange={(event) => handleClick(event, name)} />
+                              </div>
+
+
+                              <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex', marginRight: '14px' }}>Наименование:</TableCell>
+                                <TableCell component="th" scope="row" padding="none" style={{
+                                  width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0'
+                                }}>
+                                  < Stack direction="row" alignItems="center" spacing={2} >
+                                    <Typography variant="subtitle2" style={{ whiteSpace: 'preWrap' }} >
+                                      {name}
+                                    </Typography>
+                                  </Stack>
                                 </TableCell>
-                              )
-                            }
-                            <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex', marginRight: '14px' }}>Наименование:</TableCell>
-                              <TableCell component="th" scope="row" padding="none" style={{
-                                width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0'
-                              }}>
-                                < Stack direction="row" alignItems="center" spacing={2} >
-                                  <Typography variant="subtitle2" style={{ whiteSpace: 'preWrap' }} >
-                                    {name}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex' }}>Артикул:</TableCell>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0' }}>{articul}</TableCell>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex' }}>Кол-во</TableCell>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0' }}>{quantity}</TableCell>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex' }}>Стоимость:</TableCell>
-                              <TableCell align="left" style={{ width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0' }}>{price} $</TableCell>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex' }}>Артикул:</TableCell>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0' }}>{articul}</TableCell>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex' }}>Кол-во</TableCell>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0' }}>{quantity}</TableCell>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: window.innerWidth < 410 ? 'left' : 'space-between' }}>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex' }}>Стоимость:</TableCell>
+                                <TableCell align="left" style={{ width: '45%', display: 'flex', marginLeft: window.innerWidth < 410 ? '20px' : '0' }}>{price} $</TableCell>
+                              </div>
                             </div>
 
-                            {
-                              window.innerWidth < 410 ? <></> : (
-                                <TableCell align="right">
-                                  <IconButton size="large" color="inherit" onClick={(event) => handleOpenMenu(event, row)}>
-                                    <Iconify icon={'eva:more-vertical-fill'} />
-                                  </IconButton>
-                                </TableCell>
-                              )
-                            }
                           </TableRow>
                         )
 
@@ -457,7 +447,7 @@ export default function ProductPage() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </Card>
+        </Card >
       </Container >
 
       <ProductModal open={openProductModal} onClose={handleCloseProductModal} style={productModalStyle} activeProduct={activeProduct} edit={activeProduct} handleAddProduct={handleAddProduct} />
